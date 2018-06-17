@@ -706,7 +706,7 @@
     <name>FreespaceChecker</name>
     <message>
         <source>A new data directory will be created.</source>
-        <translation>Un nouveau répertoire de données sera créé. </translation>
+        <translation>Un nouveau répertoire de données sera créé.</translation>
     </message>
     <message>
         <source>name</source>
@@ -714,7 +714,7 @@
     </message>
     <message>
         <source>Path already exists, and is not a directory.</source>
-        <translation>Le chemin existe déjà et ce n'est pas un répertoire. </translation>
+        <translation>Le chemin existe déjà et ce n'est pas un répertoire.</translation>
     </message>
     <message>
         <source>Cannot create data directory here.</source>
@@ -760,7 +760,7 @@
     <name>Intro</name>
     <message>
         <source>Welcome</source>
-        <translation>Bienvenue </translation>
+        <translation>Bienvenue</translation>
     </message>
     <message>
         <source>Welcome to %1.</source>
@@ -768,7 +768,7 @@
     </message>
     <message>
         <source>Use the default data directory</source>
-        <translation>Utiliser le répertoire par défaut </translation>
+        <translation>Utiliser le répertoire par défaut</translation>
     </message>
     <message>
         <source>Use a custom data directory:</source>
@@ -921,7 +921,7 @@
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation>&amp;Annuler </translation>
+        <translation>&amp;Annuler</translation>
     </message>
     <message>
         <source>default</source>
@@ -933,7 +933,7 @@
     </message>
     <message>
         <source>Confirm options reset</source>
-        <translation>Confirmer les options de réinitialisation </translation>
+        <translation>Confirmer les options de réinitialisation</translation>
     </message>
     <message>
         <source>Client restart required to activate changes.</source>
@@ -992,7 +992,7 @@
     </message>
     <message>
         <source>Recent transactions</source>
-        <translation>Transactions récentes </translation>
+        <translation>Transactions récentes</translation>
     </message>
     </context>
 <context>
@@ -1007,7 +1007,7 @@
     </message>
     <message>
         <source>Payment request rejected</source>
-        <translation>Requête de paiement rejetée </translation>
+        <translation>Requête de paiement rejetée</translation>
     </message>
     <message>
         <source>Payment request expired.</source>
@@ -1042,7 +1042,7 @@
     </message>
     <message>
         <source>Node/Service</source>
-        <translation>Nœud/Service </translation>
+        <translation>Nœud/Service</translation>
     </message>
     <message>
         <source>Sent</source>
@@ -1050,7 +1050,7 @@
     </message>
     <message>
         <source>Received</source>
-        <translation>Reçu </translation>
+        <translation>Reçu</translation>
     </message>
 </context>
 <context>
@@ -1154,7 +1154,7 @@
     </message>
     <message>
         <source>Debug window</source>
-        <translation>Fenêtre de débogage </translation>
+        <translation>Fenêtre de débogage</translation>
     </message>
     <message>
         <source>General</source>
@@ -1162,7 +1162,7 @@
     </message>
     <message>
         <source>Using BerkeleyDB version</source>
-        <translation>Version BerkeleyDButilisée </translation>
+        <translation>Version BerkeleyDB utilisée</translation>
     </message>
     <message>
         <source>Startup time</source>
@@ -1182,7 +1182,7 @@
     </message>
     <message>
         <source>Block chain</source>
-        <translation>Chaîne de bloc </translation>
+        <translation>Chaîne de blocs</translation>
     </message>
     <message>
         <source>Current number of blocks</source>
@@ -1202,7 +1202,7 @@
     </message>
     <message>
         <source>Received</source>
-        <translation>Reçu </translation>
+        <translation>Reçu</translation>
     </message>
     <message>
         <source>Sent</source>
@@ -1474,7 +1474,7 @@
     </message>
     <message>
         <source>automatically selected</source>
-        <translation>Automatiquement sélectionné </translation>
+        <translation>Automatiquement sélectionné</translation>
     </message>
     <message>
         <source>Insufficient funds!</source>
@@ -1522,7 +1522,7 @@
     </message>
     <message>
         <source>Recommended:</source>
-        <translation>Recommandé: </translation>
+        <translation>Recommandé:</translation>
     </message>
     <message>
         <source>Send to multiple recipients at once</source>
@@ -1534,7 +1534,7 @@
     </message>
     <message>
         <source>Dust:</source>
-        <translation>Poussière: </translation>
+        <translation>Poussière:</translation>
     </message>
     <message>
         <source>Clear &amp;All</source>
@@ -1649,7 +1649,7 @@
     </message>
     <message>
         <source>Choose previously used address</source>
-        <translation>Choisir une adresse précédemment utilisée </translation>
+        <translation>Choisir une adresse précédemment utilisée</translation>
     </message>
     <message>
         <source>This is a normal payment.</source>
@@ -1706,7 +1706,7 @@
     </message>
     <message>
         <source>Choose previously used address</source>
-        <translation>Choisir une adresse précédemment utilisée </translation>
+        <translation>Choisir une adresse précédemment utilisée</translation>
     </message>
     <message>
         <source>Alt+A</source>
@@ -1750,15 +1750,15 @@
     </message>
     <message>
         <source>The entered address is invalid.</source>
-        <translation>L'adresse entrée est invalide. </translation>
+        <translation>L'adresse entrée est invalide.</translation>
     </message>
     <message>
         <source>Please check the address and try again.</source>
-        <translation>Vérifiez l'adresse et réessayer. </translation>
+        <translation>Vérifiez l'adresse et réessayer.</translation>
     </message>
     <message>
         <source>Message signed.</source>
-        <translation>Message signé. </translation>
+        <translation>Message signé.</translation>
     </message>
     <message>
         <source>Please check the signature and try again.</source>
@@ -1770,7 +1770,7 @@
     </message>
     <message>
         <source>Message verified.</source>
-        <translation>Message vérifié. </translation>
+        <translation>Message vérifié.</translation>
     </message>
 </context>
 <context>
@@ -2132,7 +2132,7 @@
     </message>
     <message>
         <source>Exporting Successful</source>
-        <translation>Export réalisé avec sucés </translation>
+        <translation>Export réalisé avec sucés</translation>
     </message>
     <message>
         <source>Range:</source>
@@ -2231,12 +2231,11 @@
     </message>
     <message>
         <source>Debugging/Testing options:</source>
-        <translation>Options de débogage/test </translation>
+        <translation>Options de débogage/test</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation>
-Importation ...</translation>
+        <translation>Importation ...</translation>
     </message>
     <message>
         <source>Verifying blocks...</source>
@@ -2260,7 +2259,7 @@ Importation ...</translation>
     </message>
     <message>
         <source>Node relay options:</source>
-        <translation>Options du relais de nœud: </translation>
+        <translation>Options du relais de nœud:</translation>
     </message>
     <message>
         <source>RPC server options:</source>
