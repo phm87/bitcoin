@@ -67,7 +67,7 @@
     </message>
     <message>
         <source>These are your Bitcoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Ceci sont vos addresses Bitcoin pour recevoir vos paiements. Il est recommandé d'utiliser une nouvelle adresse de recepetion pour chaque transaction</translation>
+        <translation>Ceci sont vos addresses Bitcoin pour recevoir vos paiements. Il est recommandé d'utiliser une nouvelle adresse de recepetion pour chaque transaction.</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -75,11 +75,11 @@
     </message>
     <message>
         <source>Copy &amp;Label</source>
-        <translation>Copier &amp;Étiquette </translation>
+        <translation>Copier &amp;Étiquette</translation>
     </message>
     <message>
         <source>&amp;Edit</source>
-        <translation>&amp;Éditer </translation>
+        <translation>&amp;Éditer</translation>
     </message>
     <message>
         <source>Export Address List</source>
@@ -95,7 +95,7 @@
     </message>
     <message>
         <source>There was an error trying to save the address list to %1. Please try again.</source>
-        <translation>Une erreur s'est produite en enregistrant la list d'adresses à %1. Merci de reéssayer.</translation>
+        <translation>Une erreur s'est produite en enregistrant la liste d'adresses à %1. Merci de reéssayer.</translation>
     </message>
 </context>
 <context>
@@ -145,7 +145,7 @@
     </message>
     <message>
         <source>This operation needs your wallet passphrase to unlock the wallet.</source>
-        <translation>Cette operation nécessite la phrase clé de votre porte-monnaie pour le déverouiller</translation>
+        <translation>Cette operation nécessite la phrase clé de votre porte-monnaie pour le déverouiller.</translation>
     </message>
     <message>
         <source>Unlock wallet</source>
@@ -165,7 +165,7 @@
     </message>
     <message>
         <source>Enter the old passphrase and new passphrase to the wallet.</source>
-        <translation>Entrez l'ancien mot de passe et le nouveau mot de passe pour le portefeuille</translation>
+        <translation>Entrez l'ancien mot de passe et le nouveau mot de passe pour le portefeuille.</translation>
     </message>
     <message>
         <source>Confirm wallet encryption</source>
@@ -177,7 +177,7 @@
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
-        <translation>Êtes-vous sûr de de vouloir crypter votre portefeuille ? </translation>
+        <translation>Êtes-vous sûr de de vouloir crypter votre portefeuille ?</translation>
     </message>
     <message>
         <source>Wallet encrypted</source>
@@ -232,7 +232,7 @@
     </message>
     <message>
         <source>Banned Until</source>
-        <translation>Banni jusque </translation>
+        <translation>Banni jusque</translation>
     </message>
 </context>
 <context>
@@ -299,7 +299,7 @@
     </message>
     <message>
         <source>&amp;Encrypt Wallet...</source>
-        <translation>&amp;Chiffrer le portefeuille </translation>
+        <translation>&amp;Chiffrer le portefeuille</translation>
     </message>
     <message>
         <source>&amp;Backup Wallet...</source>
