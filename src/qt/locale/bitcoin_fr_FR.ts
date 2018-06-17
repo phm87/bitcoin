@@ -1550,7 +1550,7 @@
     </message>
     <message>
         <source>S&amp;end</source>
-        <translation>E&amp;voyer</translation>
+        <translation>E&amp;nvoyer</translation>
     </message>
     <message>
         <source>Copy quantity</source>
@@ -1574,11 +1574,11 @@
     </message>
     <message>
         <source>Copy dust</source>
-        <translation>Copier la poussière </translation>
+        <translation>Copier la poussière</translation>
     </message>
     <message>
         <source>Copy change</source>
-        <translation>Copier changement </translation>
+        <translation>Copier le changement</translation>
     </message>
     <message>
         <source>%1 to %2</source>
@@ -1610,11 +1610,11 @@
     </message>
     <message>
         <source>The amount exceeds your balance.</source>
-        <translation>Le montant excède votre balance. </translation>
+        <translation>Le montant excède votre balance.</translation>
     </message>
     <message>
         <source>Transaction creation failed!</source>
-        <translation>Échec de la création de la transaction  </translation>
+        <translation>Échec de la création de la transaction!</translation>
     </message>
     <message>
         <source>Payment request expired.</source>
