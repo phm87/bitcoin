@@ -400,6 +400,13 @@ CXXFLAGS="$TEMP_CXXFLAGS"
 
 CPPFLAGS="$CPPFLAGS -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS"
 
+# Adapt the flags to disable dangerous RPC calls:
+# 
+# CFLAGS+=" -DNO_BACKUPWALLET"
+# CFLAGS+=" -DNO_DUMPPRIVKEY"
+# CFLAGS+=" -DNO_DUMPWALLET"
+# CFLAGS+=" -DNO_IMPORTPRIVKEY"
+
 AC_ARG_WITH([utils],
   [AS_HELP_STRING([--with-utils],
   [build bitcoin-cli bitcoin-tx (default=yes)])],
