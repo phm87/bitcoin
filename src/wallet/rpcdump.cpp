@@ -100,6 +100,10 @@ static void RescanWallet(CWallet& wallet, const WalletRescanReserver& reserver, 
 
 UniValue importprivkey(const JSONRPCRequest& request)
 {
+    #ifdef NO_IMPORTPRIVKEY
+	    return NullUniValue;
+    #endif
+    
     std::shared_ptr<CWallet> const wallet = GetWalletForJSONRPCRequest(request);
     CWallet* const pwallet = wallet.get();
     if (!EnsureWalletIsAvailable(pwallet, request.fHelp)) {
@@ -634,6 +638,10 @@ UniValue importwallet(const JSONRPCRequest& request)
 
 UniValue dumpprivkey(const JSONRPCRequest& request)
 {
+    #ifdef NO_DUMPPRIVKEY
+	    return NullUniValue;
+    #endif
+    
     std::shared_ptr<CWallet> const wallet = GetWalletForJSONRPCRequest(request);
     CWallet* const pwallet = wallet.get();
     if (!EnsureWalletIsAvailable(pwallet, request.fHelp)) {
@@ -678,6 +686,10 @@ UniValue dumpprivkey(const JSONRPCRequest& request)
 
 UniValue dumpwallet(const JSONRPCRequest& request)
 {
+    #ifdef NO_DUMPWALLET
+	    return NullUniValue;
+    #endif
+    
     std::shared_ptr<CWallet> const wallet = GetWalletForJSONRPCRequest(request);
     CWallet* const pwallet = wallet.get();
     if (!EnsureWalletIsAvailable(pwallet, request.fHelp)) {
