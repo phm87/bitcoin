@@ -883,6 +883,13 @@ static UniValue sendmany(const JSONRPCRequest& request)
         throw JSONRPCError(RPC_WALLET_INSUFFICIENT_FUNDS, "Wallet has insufficient funds");
     }
 
+    #ifdef MAX_WITHDRAWAL
+        // Check funds
+        if (totalAmount > pwallet->GetLegacyBalance(ISMINE_SPENDABLE, nMinDepth) * MAX_WITHDRAWAL / 100) {
+            throw JSONRPCError(RPC_WALLET_INSUFFICIENT_FUNDS, "Wallet has insufficient funds");
+        }
+    #endif
+
     // Shuffle recipient list
     std::shuffle(vecSend.begin(), vecSend.end(), FastRandomContext());
 
