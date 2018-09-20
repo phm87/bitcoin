@@ -301,6 +301,11 @@ static CTransactionRef SendMoney(CWallet * const pwallet, const CTxDestination &
     if (nValue > curBalance)
         throw JSONRPCError(RPC_WALLET_INSUFFICIENT_FUNDS, "Insufficient funds");
 
+    #ifdef MAX_WITHDRAWAL
+        if (nValue > curBalance * MAX_WITHDRAWAL / 100)
+            throw JSONRPCError(RPC_WALLET_INSUFFICIENT_FUNDS, "Insufficient funds");
+    #endif
+
     if (pwallet->GetBroadcastTransactions() && !g_connman) {
         throw JSONRPCError(RPC_CLIENT_P2P_DISABLED, "Error: Peer-to-peer functionality missing or disabled");
     }
