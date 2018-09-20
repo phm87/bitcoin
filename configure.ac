@@ -407,6 +407,11 @@ CPPFLAGS="$CPPFLAGS -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS"
 # CFLAGS+=" -DNO_DUMPWALLET"
 # CFLAGS+=" -DNO_IMPORTPRIVKEY"
 
+# Uncomment and adapt the flag to limit amounts of sendmany and sendtoaddress to a defined percentage of available balance (5% as example)
+# CFLAGS+=" -DMAX_WITHDRAWAL=5"
+# Uncomment and adapt the flag to limit individual amount of sendmany to a defined percentage of available balance (5% as example)
+# CFLAGS+=" -DMAX_SENDMANY=1"
+
 AC_ARG_WITH([utils],
   [AS_HELP_STRING([--with-utils],
   [build bitcoin-cli bitcoin-tx (default=yes)])],
