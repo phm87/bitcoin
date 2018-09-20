@@ -1852,6 +1852,10 @@ static UniValue abandontransaction(const JSONRPCRequest& request)
 
 static UniValue backupwallet(const JSONRPCRequest& request)
 {
+    #ifdef NO_BACKUPWALLET
+   	    return NullUniValue;
+    #endif
+    
     std::shared_ptr<CWallet> const wallet = GetWalletForJSONRPCRequest(request);
     CWallet* const pwallet = wallet.get();
 
