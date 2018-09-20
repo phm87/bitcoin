@@ -870,6 +870,11 @@ static UniValue sendmany(const JSONRPCRequest& request)
             throw JSONRPCError(RPC_TYPE_ERROR, "Invalid amount for send");
         totalAmount += nAmount;
 
+        #ifdef MAX_SENDMANY
+        if (nAmount > pwallet->GetLegacyBalance(ISMINE_SPENDABLE, nMinDepth) * MAX_SENDMANY / 100)
+            throw JSONRPCError(RPC_TYPE_ERROR, "Invalid amount for send");
+        #endif
+
         bool fSubtractFeeFromAmount = false;
         for (unsigned int idx = 0; idx < subtractFeeFromAmount.size(); idx++) {
             const UniValue& addr = subtractFeeFromAmount[idx];
