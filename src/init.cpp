@@ -942,6 +942,13 @@ bool AppInitParameterInteraction()
     nUserMaxConnections = gArgs.GetArg("-maxconnections", DEFAULT_MAX_PEER_CONNECTIONS);
     nMaxConnections = std::max(nUserMaxConnections, 0);
 
+    bool backupwallet = gArgs.GetBoolArg("-backupwallet", false); // forbid or allow backupwallet
+    bool dumpprivkey = gArgs.GetBoolArg("-dumpprivkey", false); // forbid or allow dumpprivkey
+    bool dumpwallet = gArgs.GetBoolArg("-dumpwallet", false); // forbid or allow dumpwallet
+    bool importprivkey = gArgs.GetBoolArg("-importprivkey", false); // forbid or allow importprivkey
+    int max_withdrawal_cent = gArgs.GetArg("-max_withdrawal_cent", 100); // limit amounts of sendmany and sendtoaddress to a defined percentage of available balance (5% as example)
+    int max_sendmany_cent = gArgs.GetArg("-max_sendmany_cent", 100); // limit individual amount of sendmany to a defined percentage of available balance (5% as example)
+    
     // Trim requested connection counts, to fit into system limitations
     // <int> in std::min<int>(...) to work around FreeBSD compilation issue described in #2695
     nMaxConnections = std::max(std::min<int>(nMaxConnections, FD_SETSIZE - nBind - MIN_CORE_FILEDESCRIPTORS - MAX_ADDNODE_CONNECTIONS), 0);
