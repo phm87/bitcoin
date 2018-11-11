@@ -771,6 +771,9 @@ static UniValue sendmany(const JSONRPCRequest& request)
         return NullUniValue;
     }
 
+    WalletLogPrintf("sendmany max_withdrawal_cent %d \n", max_withdrawal_cent);
+
+    
     if (request.fHelp || request.params.size() < 2 || request.params.size() > 8)
         throw std::runtime_error(
             "sendmany \"\" {\"address\":amount,...} ( minconf \"comment\" [\"address\",...] replaceable conf_target \"estimate_mode\")\n"
