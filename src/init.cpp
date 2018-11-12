@@ -914,12 +914,12 @@ bool AppInitBasicSetup()
     return true;
 }
 
-bool backupwallet;
-bool dumpprivkey;
-bool dumpwallet;
-bool importprivkey;
-int max_withdrawal_cent;
-int max_sendmany_cent;
+extern bool backupwallet;
+extern bool dumpprivkey;
+extern bool dumpwallet;
+extern bool importprivkey;
+extern int max_withdrawal_cent;
+extern int max_sendmany_cent;
 
 bool AppInitParameterInteraction()
 {
