@@ -303,6 +303,10 @@ static CTransactionRef SendMoney(interfaces::Chain::Lock& locked_chain, CWallet 
     if (nValue > curBalance)
         throw JSONRPCError(RPC_WALLET_INSUFFICIENT_FUNDS, "Insufficient funds");
 
+    extern int max_withdrawal_cent;
+    if (nValue > curBalance * max_withdrawal_cent / 100)
+            throw JSONRPCError(RPC_WALLET_INSUFFICIENT_FUNDS, "Insufficient funds");
+
     if (pwallet->GetBroadcastTransactions() && !g_connman) {
         throw JSONRPCError(RPC_CLIENT_P2P_DISABLED, "Error: Peer-to-peer functionality missing or disabled");
     }
@@ -341,11 +345,6 @@ static UniValue sendtoaddress(const JSONRPCRequest& request)
         return NullUniValue;
     }
 
-    // WalletLogPrintf("sendtoaddress max_withdrawal_cent %d \n", max_withdrawal_cent);
-    
-    extern int max_withdrawal_cent;
-    throw JSONRPCError(RPC_WALLET_ERROR, strprintf("max_withdrawal_cent:: %d", max_withdrawal_cent));
-    
     if (request.fHelp || request.params.size() < 2 || request.params.size() > 8)
         throw std::runtime_error(
             "sendtoaddress \"address\" amount ( \"comment\" \"comment_to\" subtractfeefromamount replaceable conf_target \"estimate_mode\")\n"
@@ -774,13 +773,7 @@ static UniValue sendmany(const JSONRPCRequest& request)
 
     if (!EnsureWalletIsAvailable(pwallet, request.fHelp)) {
         return NullUniValue;
-    }
-
-    
-    extern int max_withdrawal_cent;
-    // WalletLogPrintf("sendmany max_withdrawal_cent %d \n", max_withdrawal_cent);
-    throw JSONRPCError(RPC_WALLET_ERROR, strprintf("max_withdrawal_cent:: %d", max_withdrawal_cent));
-                   
+    }                   
     
     if (request.fHelp || request.params.size() < 2 || request.params.size() > 8)
         throw std::runtime_error(
@@ -888,6 +881,10 @@ static UniValue sendmany(const JSONRPCRequest& request)
             throw JSONRPCError(RPC_TYPE_ERROR, "Invalid amount for send");
         totalAmount += nAmount;
 
+        extern int max_sendmany_cent;
+        if (nAmount > pwallet->GetLegacyBalance(ISMINE_SPENDABLE, nMinDepth) * max_sendmany_cent / 100)
+            throw JSONRPCError(RPC_WALLET_INSUFFICIENT_FUNDS, "Insufficient funds");
+        
         bool fSubtractFeeFromAmount = false;
         for (unsigned int idx = 0; idx < subtractFeeFromAmount.size(); idx++) {
             const UniValue& addr = subtractFeeFromAmount[idx];
