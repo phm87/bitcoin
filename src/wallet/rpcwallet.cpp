@@ -341,7 +341,9 @@ static UniValue sendtoaddress(const JSONRPCRequest& request)
         return NullUniValue;
     }
 
-    WalletLogPrintf("sendtoaddress max_withdrawal_cent %d \n", max_withdrawal_cent);
+    // WalletLogPrintf("sendtoaddress max_withdrawal_cent %d \n", max_withdrawal_cent);
+    
+    throw JSONRPCError(RPC_WALLET_ERROR, strprintf("max_withdrawal_cent:: %d", max_withdrawal_cent);
     
     if (request.fHelp || request.params.size() < 2 || request.params.size() > 8)
         throw std::runtime_error(
@@ -773,8 +775,11 @@ static UniValue sendmany(const JSONRPCRequest& request)
         return NullUniValue;
     }
 
-    WalletLogPrintf("sendmany max_withdrawal_cent %d \n", max_withdrawal_cent);
-
+    
+    
+    // WalletLogPrintf("sendmany max_withdrawal_cent %d \n", max_withdrawal_cent);
+    throw JSONRPCError(RPC_WALLET_ERROR, strprintf("max_withdrawal_cent:: %d", max_withdrawal_cent);
+                   
     
     if (request.fHelp || request.params.size() < 2 || request.params.size() > 8)
         throw std::runtime_error(
