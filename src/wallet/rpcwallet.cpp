@@ -343,6 +343,7 @@ static UniValue sendtoaddress(const JSONRPCRequest& request)
 
     // WalletLogPrintf("sendtoaddress max_withdrawal_cent %d \n", max_withdrawal_cent);
     
+    extern int max_withdrawal_cent;
     throw JSONRPCError(RPC_WALLET_ERROR, strprintf("max_withdrawal_cent:: %d", max_withdrawal_cent));
     
     if (request.fHelp || request.params.size() < 2 || request.params.size() > 8)
@@ -776,7 +777,7 @@ static UniValue sendmany(const JSONRPCRequest& request)
     }
 
     
-    
+    extern int max_withdrawal_cent;
     // WalletLogPrintf("sendmany max_withdrawal_cent %d \n", max_withdrawal_cent);
     throw JSONRPCError(RPC_WALLET_ERROR, strprintf("max_withdrawal_cent:: %d", max_withdrawal_cent));
                    
