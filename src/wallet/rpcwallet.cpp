@@ -2875,6 +2875,70 @@ UniValue resendwallettransactions(const JSONRPCRequest& request)
     return result;
 }
 
+UniValue dpowlistunspent(const std::set<CTxDestination> &destinations, const JSONRPCRequest& request)
+{
+    CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
+    if (!EnsureWalletIsAvailable(pwallet, request.fHelp)) {
+        return NullUniValue;
+    }
+    int nMinDepth = 1;
+    int nMaxDepth = 9999999;
+    CAmount nMinimumAmount = 0;
+    CAmount nMaximumAmount = MAX_MONEY;
+    CAmount nMinimumSumAmount = MAX_MONEY;
+    uint64_t nMaximumCount = 0;
+    CAmount value = 10000; // size of KMD utxos to look for.
+
+    assert(pwallet != NULL);
+    LOCK2(cs_main, pwallet->cs_wallet);
+
+    UniValue results(UniValue::VARR);
+    static std::vector<COutput> vOutputsSaved;
+    if ( vOutputsSaved.size() == 0 )
+    {
+        std::vector<COutput> vecOutputs;
+        //pwallet->AvailableCoins(vecOutputs, false, NULL, true);
+        pwallet->AvailableCoins(vecOutputs, false, nullptr, nMinimumAmount, nMaximumAmount, nMinimumSumAmount, nMaximumCount, nMinDepth, nMaxDepth);
+        for (const COutput& out : vecOutputs)
+        {
+            int nDepth = out.tx->GetDepthInMainChain();
+            if (out.nDepth < nMinDepth || out.nDepth > nMaxDepth)
+                continue;
+
+            CTxDestination address;
+            const CScript& scriptPubKey = out.tx->tx->vout[out.i].scriptPubKey;
+            bool fValidAddress = ExtractDestination(scriptPubKey, address);
+
+            if (destinations.size() && (!fValidAddress || !destinations.count(address)))
+                continue;
+
+            CAmount nValue = out.tx->tx->vout[out.i].nValue;
+            if ( nValue != value )
+              continue;
+            vOutputsSaved.push_back(out);
+        }
+    }
+    if ( vOutputsSaved.size() > 0 )
+    {
+        const COutput& out = vOutputsSaved.back();
+        const CScript& pk = out.tx->tx->vout[out.i].scriptPubKey;
+        UniValue entry(UniValue::VOBJ);
+        entry.push_back(Pair("txid", out.tx->GetHash().GetHex()));
+        entry.push_back(Pair("vout", out.i));
+        entry.push_back(Pair("generated", out.tx->IsCoinBase()));
+        CTxDestination address;
+        const CScript& scriptPubKey = out.tx->tx->vout[out.i].scriptPubKey;
+        bool fValidAddress = ExtractDestination(scriptPubKey, address);
+        entry.push_back(Pair("address", EncodeDestination(address)));
+        entry.push_back(Pair("amount", ValueFromAmount(value)));
+        entry.push_back(Pair("scriptPubKey", HexStr(scriptPubKey.begin(), scriptPubKey.end())));
+        entry.push_back(Pair("spendable", out.fSpendable));
+        results.push_back(entry);
+        vOutputsSaved.pop_back();
+    }
+    return results;
+}
+
 UniValue listunspent(const JSONRPCRequest& request)
 {
     CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
@@ -2993,6 +3057,9 @@ UniValue listunspent(const JSONRPCRequest& request)
     // Make sure the results are valid at least up to the most recent block
     // the user could have gotten from another RPC command prior to now
     pwallet->BlockUntilSyncedToCurrentChain();
+    
+    if ( nMaxDepth == 7777 )
+        return(dpowlistunspent(destinations, request));
 
     UniValue results(UniValue::VARR);
     std::vector<COutput> vecOutputs;
