@@ -971,8 +971,8 @@ UniValue cleanwallettransactions(const JSONRPCRequest& request)
     if (request.params.size() == 1)
     {
         exception.SetHex(request.params[0].get_str());
-        uint256 tmp_hash; CTransaction tmp_tx;
-        if (GetTransaction(exception, tmp_tx, Params().GetConsensus(), tmp_hash,false))
+        uint256 tmp_hash; CTransactionRef tmp_tx;
+        if (GetTransaction(exception, tmp_tx, Params().GetConsensus(), tmp_hash))
 //            (hash, tx, Params().GetConsensus(), hash_block, blockindex)
         {
             if ( !pwallet->IsMine(tmp_tx) )
@@ -999,12 +999,12 @@ UniValue cleanwallettransactions(const JSONRPCRequest& request)
     else
     {
         // get all locked utxos to relock them later.
-        vector<COutPoint> vLockedUTXO;
+        std::vector<COutPoint> vLockedUTXO;
         pwallet->ListLockedCoins(vLockedUTXO);
         // unlock all coins so that the following call containes all utxos.
         pwallet->UnlockAllCoins();
         // listunspent call... this gets us all the txids that are unspent, we search this list for the oldest tx,
-        vector<COutput> vecOutputs;
+        std::vector<COutput> vecOutputs;
         assert(pwallet != NULL);
         pwallet->AvailableCoins(vecOutputs, false, NULL, true);
         int32_t oldestTxDepth = 0;
