@@ -135,7 +135,6 @@ private:
 
 public:
     /** Notifies listeners of an erased transaction (currently disabled, requires transaction replacement). */
-    void EraseFromWallet(const uint256 &hash);
     void EraseTransaction(const uint256 &hash);
     /** Register a CScheduler to give callbacks which should run in the background (may only be called once) */
     void RegisterBackgroundSignalScheduler(CScheduler& scheduler);
