@@ -776,6 +776,18 @@ DBErrors CWallet::ReorderTransactions()
     return DB_LOAD_OK;
 }
 
+void CWallet::EraseFromWallet(const uint256 &hash)
+{
+    if (!fFileBacked)
+        return;
+    {
+        LOCK(cs_wallet);
+        if (mapWallet.erase(hash))
+            CWalletDB(strWalletFile).EraseTx(hash);
+    }
+    return;
+}
+
 int64_t CWallet::IncOrderPosNext(CWalletDB *pwalletdb)
 {
     AssertLockHeld(cs_wallet); // nOrderPosNext
