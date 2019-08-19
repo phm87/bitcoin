@@ -972,7 +972,8 @@ UniValue cleanwallettransactions(const JSONRPCRequest& request)
     {
         exception.SetHex(request.params[0].get_str());
         uint256 tmp_hash; CTransaction tmp_tx;
-        if (GetTransaction(exception,tmp_tx,tmp_hash,false))
+        if (GetTransaction(exception, Params().GetConsensus(), tmp_tx,tmp_hash,false))
+//            (hash, tx, Params().GetConsensus(), hash_block, blockindex)
         {
             if ( !pwallet->IsMine(tmp_tx) )
             {
