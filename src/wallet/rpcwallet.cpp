@@ -981,7 +981,7 @@ UniValue cleanwallettransactions(const JSONRPCRequest& request)
             }
             else
             {
-                for (map<uint256, CWalletTx>::iterator it = pwallet->mapWallet.begin(); it != pwallet->mapWallet.end(); ++it)
+                for (std::map<uint256, CWalletTx>::iterator it = pwallet->mapWallet.begin(); it != pwallet->mapWallet.end(); ++it)
                 {
                     const CWalletTx& wtx = (*it).second;
                     if ( wtx.GetHash() != exception )
