@@ -65,6 +65,8 @@ protected:
      * Called on a background thread.
      */
     virtual void UpdatedBlockTip(const CBlockIndex *pindexNew, const CBlockIndex *pindexFork, bool fInitialDownload) {}
+    
+    virtual void EraseFromWallet(const uint256 &hash) {}
     /**
      * Notifies listeners of a transaction having been added to mempool.
      *
@@ -132,6 +134,8 @@ private:
     void MempoolEntryRemoved(CTransactionRef tx, MemPoolRemovalReason reason);
 
 public:
+    /** Notifies listeners of an erased transaction (currently disabled, requires transaction replacement). */
+    boost::signals2::signal<void (const uint256 &)> EraseTransaction;
     /** Register a CScheduler to give callbacks which should run in the background (may only be called once) */
     void RegisterBackgroundSignalScheduler(CScheduler& scheduler);
     /** Unregister a CScheduler to give callbacks which should run in the background - these callbacks will now be dropped! */
