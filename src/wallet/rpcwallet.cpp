@@ -936,10 +936,10 @@ UniValue movecmd(const JSONRPCRequest& request)
     return true;
 }
 
-UniValue cleanwallettransactions(const UniValue& params, bool fHelp)
+void cleanwallettransactions(const UniValue& params, bool fHelp)
 {
     if (!EnsureWalletIsAvailable(fHelp))
-        return NullUniValue;
+        return;
 
     if (fHelp || params.size() > 1 )
         throw runtime_error(
@@ -1036,7 +1036,7 @@ UniValue cleanwallettransactions(const UniValue& params, bool fHelp)
     ret.push_back(Pair("total_transactons", (int)txs));
     ret.push_back(Pair("remaining_transactons", (int)remaining));
     ret.push_back(Pair("removed_transactions", (int)(txs-remaining)));
-    return  (ret);
+    return;
 }
 
 UniValue sendfrom(const JSONRPCRequest& request)
