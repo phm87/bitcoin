@@ -977,7 +977,7 @@ UniValue cleanwallettransactions(const JSONRPCRequest& request)
         {
             if ( !pwallet->IsMine(tmp_tx) )
             {
-                throw JSONRPCError("\nThe transaction is not yours!\n");
+            throw JSONRPCError(RPC_INVALID_PARAMETER,"\nThe transaction is not yours!\n");
             }
             else
             {
@@ -993,7 +993,7 @@ UniValue cleanwallettransactions(const JSONRPCRequest& request)
         }
         else
         {
-            throw JSONRPCError("\nThe transaction could not be found!\n");
+            throw JSONRPCError(RPC_INVALID_PARAMETER,"\nThe transaction could not be found!\n");
         }
     }
     else
