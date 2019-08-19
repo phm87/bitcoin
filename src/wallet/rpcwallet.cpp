@@ -936,12 +936,15 @@ UniValue movecmd(const JSONRPCRequest& request)
     return true;
 }
 
-void cleanwallettransactions(const UniValue& params, bool fHelp)
-{
-    if (!EnsureWalletIsAvailable(fHelp))
-        return;
 
-    if (fHelp || params.size() > 1 )
+UniValue cleanwallettransactions(const JSONRPCRequest& request)
+{
+    CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
+    if (!EnsureWalletIsAvailable(pwallet, request.fHelp)) {
+        return NullUniValue;
+    }
+
+    if (request.fHelp)
         throw runtime_error(
             "cleanwallettransactions \"txid\"\n"
             "\nRemove all txs that are spent. You can clear all txs bar one, by specifiying a txid.\n"
@@ -950,7 +953,7 @@ void cleanwallettransactions(const UniValue& params, bool fHelp)
             "1. \"txid\"    (string, optional) The transaction id to keep.\n"
             "\nResult:\n"
             "{\n"
-            "  \"total_transactons\" : n,         (numeric) Transactions in wallet of " + strprintf("%s",komodo_chainname()) + "\n"
+            "  \"total_transactons\" : n,         (numeric) Transactions in wallet.\n"
             "  \"remaining_transactons\" : n,     (numeric) Transactions in wallet after clean.\n"
             "  \"removed_transactons\" : n,       (numeric) The number of transactions removed.\n"
             "}\n"
@@ -965,9 +968,9 @@ void cleanwallettransactions(const UniValue& params, bool fHelp)
     UniValue ret(UniValue::VOBJ);
     uint256 exception; int32_t txs = pwalletMain->mapWallet.size();
     std::vector<uint256> TxToRemove;
-    if (params.size() == 1)
+    if (request.params.size() == 1)
     {
-        exception.SetHex(params[0].get_str());
+        exception.SetHex(request.params[0].get_str());
         uint256 tmp_hash; CTransaction tmp_tx;
         if (GetTransaction(exception,tmp_tx,tmp_hash,false))
         {
@@ -1036,7 +1039,7 @@ void cleanwallettransactions(const UniValue& params, bool fHelp)
     ret.push_back(Pair("total_transactons", (int)txs));
     ret.push_back(Pair("remaining_transactons", (int)remaining));
     ret.push_back(Pair("removed_transactions", (int)(txs-remaining)));
-    return;
+    return (ret);
 }
 
 UniValue sendfrom(const JSONRPCRequest& request)
