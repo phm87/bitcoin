@@ -975,7 +975,7 @@ UniValue cleanwallettransactions(const JSONRPCRequest& request)
         if (GetTransaction(exception, tmp_tx, Params().GetConsensus(), tmp_hash))
 //            (hash, tx, Params().GetConsensus(), hash_block, blockindex)
         {
-            if ( !pwallet->IsMine(tmp_tx) )
+            if ( IsMine(tmp_tx) )
             {
             throw JSONRPCError(RPC_INVALID_PARAMETER,"\nThe transaction is not yours!\n");
             }
@@ -1008,14 +1008,13 @@ UniValue cleanwallettransactions(const JSONRPCRequest& request)
         assert(pwallet != NULL);
         pwallet->AvailableCoins(vecOutputs, false, NULL, true);
         int32_t oldestTxDepth = 0;
-        BOOST_FOREACH(const COutput& out, vecOutputs)
-        {
+        for (const COutPoint& out : vecOutputs) {
           if ( out.nDepth > oldestTxDepth )
               oldestTxDepth = out.nDepth;
         }
         oldestTxDepth = oldestTxDepth + 1; // add extra block just for safety.
         // lock all the previouly locked coins.
-        BOOST_FOREACH(COutPoint &outpt, vLockedUTXO) {
+        for (const COutPoint& outpt : vLockedUTXO) {
             pwallet->LockCoin(outpt);
         }
 
@@ -1029,7 +1028,7 @@ UniValue cleanwallettransactions(const JSONRPCRequest& request)
     }
 
     // erase txs
-    BOOST_FOREACH (uint256& hash, TxToRemove)
+    for (const COutPoint& hash : TxToRemove)
     {
         pwallet->EraseFromWallet(hash);
         LogPrintf("Erased %s from wallet.\n",hash.ToString().c_str());
