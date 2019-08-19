@@ -134,8 +134,6 @@ private:
     void MempoolEntryRemoved(CTransactionRef tx, MemPoolRemovalReason reason);
 
 public:
-    /** Notifies listeners of an erased transaction (currently disabled, requires transaction replacement). */
-    void EraseTransaction(const uint256 &hash);
     /** Register a CScheduler to give callbacks which should run in the background (may only be called once) */
     void RegisterBackgroundSignalScheduler(CScheduler& scheduler);
     /** Unregister a CScheduler to give callbacks which should run in the background - these callbacks will now be dropped! */
@@ -150,6 +148,8 @@ public:
     /** Unregister with mempool */
     void UnregisterWithMempoolSignals(CTxMemPool& pool);
 
+    /** Notifies listeners of an erased transaction (currently disabled, requires transaction replacement). */
+    void EraseTransaction(const uint256 &hash);
     void UpdatedBlockTip(const CBlockIndex *, const CBlockIndex *, bool fInitialDownload);
     void TransactionAddedToMempool(const CTransactionRef &);
     void BlockConnected(const std::shared_ptr<const CBlock> &, const CBlockIndex *pindex, const std::shared_ptr<const std::vector<CTransactionRef>> &);
