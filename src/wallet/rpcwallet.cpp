@@ -945,7 +945,7 @@ UniValue cleanwallettransactions(const JSONRPCRequest& request)
     }
 
     if (request.fHelp)
-        throw runtime_error(
+        throw std::runtime_error(
             "cleanwallettransactions \"txid\"\n"
             "\nRemove all txs that are spent. You can clear all txs bar one, by specifiying a txid.\n"
             "\nPlease backup your wallet.dat before running this command.\n"
@@ -964,9 +964,9 @@ UniValue cleanwallettransactions(const JSONRPCRequest& request)
             + HelpExampleRpc("cleanwallettransactions","\"1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d\"")
         );
 
-    LOCK2(cs_main, pwalletMain->cs_wallet);
+    LOCK2(cs_main, pwallet->cs_wallet);
     UniValue ret(UniValue::VOBJ);
-    uint256 exception; int32_t txs = pwalletMain->mapWallet.size();
+    uint256 exception; int32_t txs = pwallet->mapWallet.size();
     std::vector<uint256> TxToRemove;
     if (request.params.size() == 1)
     {
@@ -974,13 +974,13 @@ UniValue cleanwallettransactions(const JSONRPCRequest& request)
         uint256 tmp_hash; CTransaction tmp_tx;
         if (GetTransaction(exception,tmp_tx,tmp_hash,false))
         {
-            if ( !pwalletMain->IsMine(tmp_tx) )
+            if ( !pwallet->IsMine(tmp_tx) )
             {
                 throw runtime_error("\nThe transaction is not yours!\n");
             }
             else
             {
-                for (map<uint256, CWalletTx>::iterator it = pwalletMain->mapWallet.begin(); it != pwalletMain->mapWallet.end(); ++it)
+                for (map<uint256, CWalletTx>::iterator it = pwallet->mapWallet.begin(); it != pwallet->mapWallet.end(); ++it)
                 {
                     const CWalletTx& wtx = (*it).second;
                     if ( wtx.GetHash() != exception )
@@ -999,13 +999,13 @@ UniValue cleanwallettransactions(const JSONRPCRequest& request)
     {
         // get all locked utxos to relock them later.
         vector<COutPoint> vLockedUTXO;
-        pwalletMain->ListLockedCoins(vLockedUTXO);
+        pwallet->ListLockedCoins(vLockedUTXO);
         // unlock all coins so that the following call containes all utxos.
-        pwalletMain->UnlockAllCoins();
+        pwallet->UnlockAllCoins();
         // listunspent call... this gets us all the txids that are unspent, we search this list for the oldest tx,
         vector<COutput> vecOutputs;
-        assert(pwalletMain != NULL);
-        pwalletMain->AvailableCoins(vecOutputs, false, NULL, true);
+        assert(pwallet != NULL);
+        pwallet->AvailableCoins(vecOutputs, false, NULL, true);
         int32_t oldestTxDepth = 0;
         BOOST_FOREACH(const COutput& out, vecOutputs)
         {
@@ -1015,11 +1015,11 @@ UniValue cleanwallettransactions(const JSONRPCRequest& request)
         oldestTxDepth = oldestTxDepth + 1; // add extra block just for safety.
         // lock all the previouly locked coins.
         BOOST_FOREACH(COutPoint &outpt, vLockedUTXO) {
-            pwalletMain->LockCoin(outpt);
+            pwallet->LockCoin(outpt);
         }
 
         // then add all txs in the wallet before this block to the list to remove.
-        for (map<uint256, CWalletTx>::iterator it = pwalletMain->mapWallet.begin(); it != pwalletMain->mapWallet.end(); ++it)
+        for (map<uint256, CWalletTx>::iterator it = pwallet->mapWallet.begin(); it != pwallet->mapWallet.end(); ++it)
         {
             const CWalletTx& wtx = (*it).second;
             if (wtx.GetDepthInMainChain() > oldestTxDepth)
@@ -1030,12 +1030,12 @@ UniValue cleanwallettransactions(const JSONRPCRequest& request)
     // erase txs
     BOOST_FOREACH (uint256& hash, TxToRemove)
     {
-        pwalletMain->EraseFromWallet(hash);
+        pwallet->EraseFromWallet(hash);
         LogPrintf("Erased %s from wallet.\n",hash.ToString().c_str());
     }
 
     // build return JSON for stats.
-    int remaining = pwalletMain->mapWallet.size();
+    int remaining = pwallet->mapWallet.size();
     ret.push_back(Pair("total_transactons", (int)txs));
     ret.push_back(Pair("remaining_transactons", (int)remaining));
     ret.push_back(Pair("removed_transactions", (int)(txs-remaining)));
