@@ -975,7 +975,7 @@ UniValue cleanwallettransactions(const JSONRPCRequest& request)
         if (GetTransaction(exception, tmp_tx, Params().GetConsensus(), tmp_hash))
 //            (hash, tx, Params().GetConsensus(), hash_block, blockindex)
         {
-            if ( IsMine(tmp_tx) )
+            if ( pwallet->IsMine(tmp_tx) )
             {
             throw JSONRPCError(RPC_INVALID_PARAMETER,"\nThe transaction is not yours!\n");
             }
@@ -1008,7 +1008,7 @@ UniValue cleanwallettransactions(const JSONRPCRequest& request)
         assert(pwallet != NULL);
         pwallet->AvailableCoins(vecOutputs, false, NULL, true);
         int32_t oldestTxDepth = 0;
-        for (const COutPoint& out : vecOutputs) {
+        for (const COutput& out : vecOutputs) {
           if ( out.nDepth > oldestTxDepth )
               oldestTxDepth = out.nDepth;
         }
@@ -1019,7 +1019,7 @@ UniValue cleanwallettransactions(const JSONRPCRequest& request)
         }
 
         // then add all txs in the wallet before this block to the list to remove.
-        for (map<uint256, CWalletTx>::iterator it = pwallet->mapWallet.begin(); it != pwallet->mapWallet.end(); ++it)
+        for (std::map<uint256, CWalletTx>::iterator it = pwallet->mapWallet.begin(); it != pwallet->mapWallet.end(); ++it)
         {
             const CWalletTx& wtx = (*it).second;
             if (wtx.GetDepthInMainChain() > oldestTxDepth)
