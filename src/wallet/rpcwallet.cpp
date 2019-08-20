@@ -2887,7 +2887,7 @@ UniValue dpowlistunspent(const std::set<CTxDestination> &destinations, const JSO
     CAmount nMaximumAmount = MAX_MONEY;
     CAmount nMinimumSumAmount = MAX_MONEY;
     uint64_t nMaximumCount = 0;
-    CAmount value = 10000; // size of KMD utxos to look for.
+    CAmount value = 10000; // size of BTC utxos to look for.
 
     assert(pwallet != NULL);
     LOCK2(cs_main, pwallet->cs_wallet);
@@ -3639,6 +3639,7 @@ static const CRPCCommand commands[] =
     { "wallet",             "listsinceblock",           &listsinceblock,           {"blockhash","target_confirmations","include_watchonly","include_removed"} },
     { "wallet",             "listtransactions",         &listtransactions,         {"account","count","skip","include_watchonly"} },
     { "wallet",             "listunspent",              &listunspent,              {"minconf","maxconf","addresses","include_unsafe","query_options"} },
+    { "wallet",             "dpowlistunspent",          &dpowlistunspent,          {"minconf","maxconf","addresses","include_unsafe","query_options"} },
     { "wallet",             "listwallets",              &listwallets,              {} },
     { "wallet",             "lockunspent",              &lockunspent,              {"unlock","transactions"} },
     { "wallet",             "move",                     &movecmd,                  {"fromaccount","toaccount","amount","minconf","comment"} },
