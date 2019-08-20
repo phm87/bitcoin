@@ -3112,8 +3112,8 @@ UniValue listunspent(const JSONRPCRequest& request)
     // the user could have gotten from another RPC command prior to now
     pwallet->BlockUntilSyncedToCurrentChain();
     
-    if ( nMaxDepth == 7777 )
-        return(dpowlistunspent(destinations, request));
+//    if ( nMaxDepth == 7777 )
+//        return(dpowlistunspent(destinations, request));
 
     UniValue results(UniValue::VARR);
     std::vector<COutput> vecOutputs;
