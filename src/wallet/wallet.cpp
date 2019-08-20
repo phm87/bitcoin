@@ -778,12 +778,12 @@ DBErrors CWallet::ReorderTransactions()
 
 void CWallet::EraseFromWallet(const uint256 &hash)
 {
-    if (!fFileBacked)
-        return;
+//    if (!fFileBacked)
+//        return;
     {
         LOCK(cs_wallet);
         if (mapWallet.erase(hash))
-            CWalletDB(strWalletFile).EraseTx(hash);
+            CWalletDB(*dbw).EraseTx(hash);
     }
     return;
 }
