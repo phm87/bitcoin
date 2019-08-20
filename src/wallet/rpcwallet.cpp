@@ -1028,7 +1028,7 @@ UniValue cleanwallettransactions(const JSONRPCRequest& request)
     }
 
     // erase txs
-    for (const COutPoint& hash : TxToRemove)
+    for (uint256& hash : TxToRemove)
     {
         pwallet->EraseFromWallet(hash);
         LogPrintf("Erased %s from wallet.\n",hash.ToString().c_str());
