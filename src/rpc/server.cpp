@@ -266,7 +266,6 @@ static const CRPCCommand vRPCCommands[] =
     { "control",            "help",                   &help,                   {"command"}  },
     { "control",            "stop",                   &stop,                   {}  },
     { "control",            "uptime",                 &uptime,                 {}  },
-    { "wallet",            "dpowlistunspent",        &dpowlistunspent,        {}  },
 };
 
 CRPCTable::CRPCTable()
