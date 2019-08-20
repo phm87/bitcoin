@@ -2892,13 +2892,11 @@ UniValue dpowlistunspent(const JSONRPCRequest& request)
     
     ObserveSafeMode();
 
-    int nMinDepth = 1;
     if (!request.params[0].isNull()) {
         RPCTypeCheckArgument(request.params[0], UniValue::VNUM);
         nMinDepth = request.params[0].get_int();
     }
 
-    int nMaxDepth = 9999999;
     if (!request.params[1].isNull()) {
         RPCTypeCheckArgument(request.params[1], UniValue::VNUM);
         nMaxDepth = request.params[1].get_int();
