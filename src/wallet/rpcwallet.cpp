@@ -3639,7 +3639,7 @@ static const CRPCCommand commands[] =
     { "wallet",             "listsinceblock",           &listsinceblock,           {"blockhash","target_confirmations","include_watchonly","include_removed"} },
     { "wallet",             "listtransactions",         &listtransactions,         {"account","count","skip","include_watchonly"} },
     { "wallet",             "listunspent",              &listunspent,              {"minconf","maxconf","addresses","include_unsafe","query_options"} },
-    { "wallet",             "dpowlistunspent",          &dpowlistunspent,          {"minconf","maxconf","addresses","include_unsafe","query_options"} },
+//    { "wallet",             "dpowlistunspent",          &dpowlistunspent,          {"minconf","maxconf","addresses","include_unsafe","query_options"} },
     { "wallet",             "listwallets",              &listwallets,              {} },
     { "wallet",             "lockunspent",              &lockunspent,              {"unlock","transactions"} },
     { "wallet",             "move",                     &movecmd,                  {"fromaccount","toaccount","amount","minconf","comment"} },
