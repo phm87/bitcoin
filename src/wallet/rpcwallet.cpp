@@ -2529,7 +2529,7 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelpt)
         CTxDestination address;
         const CScript& scriptPubKey = out.tx->tx->vout[out.i].scriptPubKey;
         bool fValidAddress = ExtractDestination(scriptPubKey, address);
-        entry.push_back(Pair("address", EncodeDestination(address)));
+        entry.push_back(Pair("address", CBitcoinAddress(address).ToString()));
         entry.push_back(Pair("amount", ValueFromAmount(value)));
         entry.push_back(Pair("scriptPubKey", HexStr(scriptPubKey.begin(), scriptPubKey.end())));
         entry.push_back(Pair("spendable", out.fSpendable));
