@@ -32,6 +32,7 @@ void SyncWithWallets(const CTransaction& tx, const CBlockIndex *pindex, const CB
 
 class CValidationInterface {
 protected:
+    virtual void EraseFromWallet(const uint256 &hash) {}
     virtual void UpdatedBlockTip(const CBlockIndex *pindex) {}
     virtual void SyncTransaction(const CTransaction &tx, const CBlockIndex *pindex, const CBlock *pblock) {}
     virtual void SetBestChain(const CBlockLocator &locator) {}
