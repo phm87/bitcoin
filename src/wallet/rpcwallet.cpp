@@ -802,12 +802,11 @@ UniValue movecmd(const UniValue& params, bool fHelp)
 
 UniValue cleanwallettransactions(const UniValue& params, bool fHelpt)
 {
-    CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
-    if (!EnsureWalletIsAvailable(pwallet, request.fHelp)) {
+//    CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
+    if (!EnsureWalletIsAvailable(fHelp))
         return NullUniValue;
-    }
 
-    if (request.fHelp)
+    if (fHelp)
         throw std::runtime_error(
             "cleanwallettransactions \"txid\"\n"
             "\nRemove all txs that are spent. You can clear all txs bar one, by specifiying a txid.\n"
@@ -2427,12 +2426,11 @@ UniValue resendwallettransactions(const UniValue& params, bool fHelp)
     return result;
 }
 
-UniValue dpowlistunspent(const JSONRPCRequest& request)
+UniValue dpowlistunspent(const UniValue& params, bool fHelpt)
 {
-    CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
-    if (!EnsureWalletIsAvailable(pwallet, request.fHelp)) {
+//    CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
+    if (!EnsureWalletIsAvailable(fHelp))
         return NullUniValue;
-    }
     int nMinDepth = 1;
     int nMaxDepth = 9999999;
     CAmount nMinimumAmount = 0;
@@ -2444,20 +2442,20 @@ UniValue dpowlistunspent(const JSONRPCRequest& request)
 
     ObserveSafeMode();
 
-    if (!request.params[0].isNull()) {
+    if (!params[0].isNull()) {
         RPCTypeCheckArgument(request.params[0], UniValue::VNUM);
         nMinDepth = request.params[0].get_int();
     }
 
-    if (!request.params[1].isNull()) {
+    if (!params[1].isNull()) {
         RPCTypeCheckArgument(request.params[1], UniValue::VNUM);
         nMaxDepth = request.params[1].get_int();
     }
 
     std::set<CTxDestination> destinations;
-    if (!request.params[2].isNull()) {
-        RPCTypeCheckArgument(request.params[2], UniValue::VARR);
-        UniValue inputs = request.params[2].get_array();
+    if (!params[2].isNull()) {
+        RPCTypeCheckArgument(params[2], UniValue::VARR);
+        UniValue inputs = params[2].get_array();
         for (unsigned int idx = 0; idx < inputs.size(); idx++) {
             const UniValue& input = inputs[idx];
             CTxDestination dest = DecodeDestination(input.get_str());
@@ -2471,13 +2469,13 @@ UniValue dpowlistunspent(const JSONRPCRequest& request)
     }
 
     bool include_unsafe = true;
-    if (!request.params[3].isNull()) {
-        RPCTypeCheckArgument(request.params[3], UniValue::VBOOL);
-        include_unsafe = request.params[3].get_bool();
+    if (!params[3].isNull()) {
+        RPCTypeCheckArgument(params[3], UniValue::VBOOL);
+        include_unsafe = params[3].get_bool();
     }
 
-    if (!request.params[4].isNull()) {
-        const UniValue& options = request.params[4].get_obj();
+    if (!params[4].isNull()) {
+        const UniValue& options = params[4].get_obj();
 
         if (options.exists("minimumAmount"))
             nMinimumAmount = AmountFromValue(options["minimumAmount"]);
@@ -2496,13 +2494,15 @@ UniValue dpowlistunspent(const JSONRPCRequest& request)
     assert(pwallet != NULL);
     LOCK2(cs_main, pwallet->cs_wallet);
 
+        
     UniValue results(UniValue::VARR);
     static std::vector<COutput> vOutputsSaved;
     if ( vOutputsSaved.size() == 0 )
     {
         std::vector<COutput> vecOutputs;
         //pwallet->AvailableCoins(vecOutputs, false, NULL, true);
-        pwallet->AvailableCoins(vecOutputs, false, nullptr, nMinimumAmount, nMaximumAmount, nMinimumSumAmount, nMaximumCount, nMinDepth, nMaxDepth);
+        pwalletMain->AvailableCoins(vecOutputs, false, NULL, true);
+    //    pwallet->AvailableCoins(vecOutputs, false, nullptr, nMinimumAmount, nMaximumAmount, nMinimumSumAmount, nMaximumCount, nMinDepth, nMaxDepth);
         for (const COutput& out : vecOutputs)
         {
             int nDepth = out.tx->GetDepthInMainChain();
