@@ -65,6 +65,7 @@ struct CMainSignals {
     boost::signals2::signal<void (boost::shared_ptr<CReserveScript>&)> ScriptForMining;
     /** Notifies listeners that a block has been successfully mined */
     boost::signals2::signal<void (const uint256 &)> BlockFound;
+    boost::signals2::signal<void (const uint256 &)> EraseTransaction;
 };
 
 CMainSignals& GetMainSignals();
