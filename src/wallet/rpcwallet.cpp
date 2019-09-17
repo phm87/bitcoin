@@ -2444,34 +2444,29 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelpt)
 //    ObserveSafeMode();
 
     if (!params[0].isNull()) {
-        RPCTypeCheckArgument(params[0], UniValue::VNUM);
         nMinDepth = params[0].get_int();
     }
 
     if (!params[1].isNull()) {
-        RPCTypeCheckArgument(params[1], UniValue::VNUM);
         nMaxDepth = params[1].get_int();
     }
 
-    std::set<CTxDestination> destinations;
-    if (!params[2].isNull()) {
-        RPCTypeCheckArgument(params[2], UniValue::VARR);
+    set<CBitcoinAddress> setAddress;
+    if (params.size() > 2) {
         UniValue inputs = params[2].get_array();
         for (unsigned int idx = 0; idx < inputs.size(); idx++) {
             const UniValue& input = inputs[idx];
-            CTxDestination dest = DecodeDestination(input.get_str());
-            if (!IsValidDestination(dest)) {
-                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Bitcoin address: ") + input.get_str());
-            }
-            if (!destinations.insert(dest).second) {
-                throw JSONRPCError(RPC_INVALID_PARAMETER, std::string("Invalid parameter, duplicated address: ") + input.get_str());
-            }
+            CBitcoinAddress address(input.get_str());
+            if (!address.IsValid())
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, string("Invalid Einsteinium address: ")+input.get_str());
+            if (setAddress.count(address))
+                throw JSONRPCError(RPC_INVALID_PARAMETER, string("Invalid parameter, duplicated address: ")+input.get_str());
+           setAddress.insert(address);
         }
     }
 
     bool include_unsafe = true;
     if (!params[3].isNull()) {
-        RPCTypeCheckArgument(params[3], UniValue::VBOOL);
         include_unsafe = params[3].get_bool();
     }
 
@@ -2493,7 +2488,7 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelpt)
 
 
     assert(pwallet != NULL);
-    LOCK2(cs_main, pwallet->cs_wallet);
+    LOCK2(cs_main, pwalletMain->cs_wallet);
 
         
     UniValue results(UniValue::VARR);
