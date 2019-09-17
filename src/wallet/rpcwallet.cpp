@@ -803,7 +803,7 @@ UniValue movecmd(const UniValue& params, bool fHelp)
 UniValue cleanwallettransactions(const UniValue& params, bool fHelpt)
 {
 //    CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
-    if (!EnsureWalletIsAvailable(fHelp))
+    if (!EnsureWalletIsAvailable(fHelpt))
         return NullUniValue;
 
     if (fHelp)
@@ -826,7 +826,8 @@ UniValue cleanwallettransactions(const UniValue& params, bool fHelpt)
             + HelpExampleRpc("cleanwallettransactions","\"1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d\"")
         );
 
-    LOCK2(cs_main, pwallet->cs_wallet);
+//    LOCK2(cs_main, pwallet->cs_wallet);
+    LOCK2(cs_main, pwalletMain->cs_wallet);
     UniValue ret(UniValue::VOBJ);
     uint256 exception; int32_t txs = pwallet->mapWallet.size();
     std::vector<uint256> TxToRemove;
