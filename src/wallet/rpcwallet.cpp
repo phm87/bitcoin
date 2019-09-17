@@ -806,7 +806,7 @@ UniValue cleanwallettransactions(const UniValue& params, bool fHelpt)
     if (!EnsureWalletIsAvailable(fHelpt))
         return NullUniValue;
 
-    if (fHelp)
+    if (fHelpt)
         throw std::runtime_error(
             "cleanwallettransactions \"txid\"\n"
             "\nRemove all txs that are spent. You can clear all txs bar one, by specifiying a txid.\n"
@@ -829,9 +829,9 @@ UniValue cleanwallettransactions(const UniValue& params, bool fHelpt)
 //    LOCK2(cs_main, pwallet->cs_wallet);
     LOCK2(cs_main, pwalletMain->cs_wallet);
     UniValue ret(UniValue::VOBJ);
-    uint256 exception; int32_t txs = pwallet->mapWallet.size();
+    uint256 exception; int32_t txs = pwalletMain->mapWallet.size();
     std::vector<uint256> TxToRemove;
-    if (request.params.size() == 1)
+    if (params.size() == 1)
     {
             throw JSONRPCError(RPC_INVALID_PARAMETER,"\nPeoblzm with pwallet->IsMine on a CTransactionRef instead of CTransaction!\n");
     }
@@ -2430,7 +2430,7 @@ UniValue resendwallettransactions(const UniValue& params, bool fHelp)
 UniValue dpowlistunspent(const UniValue& params, bool fHelpt)
 {
 //    CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
-    if (!EnsureWalletIsAvailable(fHelp))
+    if (!EnsureWalletIsAvailable(fHelpt))
         return NullUniValue;
     int nMinDepth = 1;
     int nMaxDepth = 9999999;
@@ -2441,11 +2441,11 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelpt)
     CAmount value = 10000; // size of BTC utxos to look for.
 // const std::set<CTxDestination> &destinations, 
 
-    ObserveSafeMode();
+//    ObserveSafeMode();
 
     if (!params[0].isNull()) {
         RPCTypeCheckArgument(request.params[0], UniValue::VNUM);
-        nMinDepth = request.params[0].get_int();
+        nMinDepth = params[0].get_int();
     }
 
     if (!params[1].isNull()) {
