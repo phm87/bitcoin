@@ -858,7 +858,7 @@ UniValue cleanwallettransactions(const UniValue& params, bool fHelpt)
         }
 
         // then add all txs in the wallet before this block to the list to remove.
-        for (std::map<uint256, CWalletTx>::iterator it = pwallet->mapWallet.begin(); it != pwallet->mapWallet.end(); ++it)
+        for (std::map<uint256, CWalletTx>::iterator it = pwalletMain->mapWallet.begin(); it != pwalletMain->mapWallet.end(); ++it)
         {
             const CWalletTx& wtx = (*it).second;
             if (wtx.GetDepthInMainChain() > oldestTxDepth)
@@ -2487,7 +2487,7 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelpt)
     }
 
 
-    assert(pwallet != NULL);
+    assert(pwalletMain != NULL);
     LOCK2(cs_main, pwalletMain->cs_wallet);
 
         
@@ -2509,7 +2509,7 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelpt)
             const CScript& scriptPubKey = out.tx->tx->vout[out.i].scriptPubKey;
             bool fValidAddress = ExtractDestination(scriptPubKey, address);
 
-            if (destinations.size() && (!fValidAddress || !destinations.count(address)))
+            if (setAddress.size() && (!fValidAddress || !setAddress.count(address)))
                 continue;
 
             CAmount nValue = out.tx->tx->vout[out.i].nValue;
