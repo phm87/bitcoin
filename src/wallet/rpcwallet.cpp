@@ -2465,76 +2465,52 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelpt)
         }
     }
 
-    bool include_unsafe = true;
-    if (!params[3].isNull()) {
-        include_unsafe = params[3].get_bool();
-    }
-
-    if (!params[4].isNull()) {
-        const UniValue& options = params[4].get_obj();
-
-        if (options.exists("minimumAmount"))
-            nMinimumAmount = AmountFromValue(options["minimumAmount"]);
-
-        if (options.exists("maximumAmount"))
-            nMaximumAmount = AmountFromValue(options["maximumAmount"]);
-
-        if (options.exists("minimumSumAmount"))
-            nMinimumSumAmount = AmountFromValue(options["minimumSumAmount"]);
-
-        if (options.exists("maximumCount"))
-            nMaximumCount = options["maximumCount"].get_int64();
-    }
-
-
+    UniValue results(UniValue::VARR);
+    vector<COutput> vecOutputs;
     assert(pwalletMain != NULL);
     LOCK2(cs_main, pwalletMain->cs_wallet);
+    pwalletMain->AvailableCoins(vecOutputs, false, NULL, true);
+    BOOST_FOREACH(const COutput& out, vecOutputs) {
+        if (out.nDepth < nMinDepth || out.nDepth > nMaxDepth)
+            continue;
 
-        
-    UniValue results(UniValue::VARR);
-    static std::vector<COutput> vOutputsSaved;
-    if ( vOutputsSaved.size() == 0 )
-    {
-        std::vector<COutput> vecOutputs;
-        //pwallet->AvailableCoins(vecOutputs, false, NULL, true);
-        pwalletMain->AvailableCoins(vecOutputs, false, NULL, true);
-    //    pwallet->AvailableCoins(vecOutputs, false, nullptr, nMinimumAmount, nMaximumAmount, nMinimumSumAmount, nMaximumCount, nMinDepth, nMaxDepth);
-        for (const COutput& out : vecOutputs)
-        {
-            int nDepth = out.tx->GetDepthInMainChain();
-            if (out.nDepth < nMinDepth || out.nDepth > nMaxDepth)
-                continue;
+        CTxDestination address;
+        const CScript& scriptPubKey = out.tx->vout[out.i].scriptPubKey;
+        bool fValidAddress = ExtractDestination(scriptPubKey, address);
 
-            CTxDestination address;
-            const CScript& scriptPubKey = out.tx->tx->vout[out.i].scriptPubKey;
-            bool fValidAddress = ExtractDestination(scriptPubKey, address);
+        if (setAddress.size() && (!fValidAddress || !setAddress.count(address)))
+            continue;
 
-            if (setAddress.size() && (!fValidAddress || !setAddress.count(address)))
-                continue;
-
-            CAmount nValue = out.tx->tx->vout[out.i].nValue;
-            if ( nValue != value )
-              continue;
-            vOutputsSaved.push_back(out);
-        }
-    }
-    if ( vOutputsSaved.size() > 0 )
-    {
-        const COutput& out = vOutputsSaved.back();
-        const CScript& pk = out.tx->tx->vout[out.i].scriptPubKey;
         UniValue entry(UniValue::VOBJ);
         entry.push_back(Pair("txid", out.tx->GetHash().GetHex()));
         entry.push_back(Pair("vout", out.i));
-        entry.push_back(Pair("generated", out.tx->IsCoinBase()));
-        CTxDestination address;
-        const CScript& scriptPubKey = out.tx->tx->vout[out.i].scriptPubKey;
-        bool fValidAddress = ExtractDestination(scriptPubKey, address);
-        entry.push_back(Pair("address", CBitcoinAddress(address).ToString()));
-        entry.push_back(Pair("amount", ValueFromAmount(value)));
+
+        if (fValidAddress) {
+            entry.push_back(Pair("address", CBitcoinAddress(address).ToString()));
+
+            if (pwalletMain->mapAddressBook.count(address))
+                entry.push_back(Pair("account", pwalletMain->mapAddressBook[address].name));
+
+            if (scriptPubKey.IsPayToScriptHash()) {
+                const CScriptID& hash = boost::get<CScriptID>(address);
+                CScript redeemScript;
+                if (pwalletMain->GetCScript(hash, redeemScript))
+                    entry.push_back(Pair("redeemScript", HexStr(redeemScript.begin(), redeemScript.end())));
+            }
+        }
+
+        int32_t txheight = -1;
+        if ( chainActive.Tip() != NULL )
+            txheight = (chainActive.Tip()->nHeight - out.nDepth - 1);
+
         entry.push_back(Pair("scriptPubKey", HexStr(scriptPubKey.begin(), scriptPubKey.end())));
+        entry.push_back(Pair("amount", ValueFromAmount(out.tx->vout[out.i].nValue)));
+        entry.push_back(Pair("rawconfirmations",out.nDepth));
+        entry.push_back(Pair("confirmations",komodo_dpowconfs(txheight,out.nDepth)));
         entry.push_back(Pair("spendable", out.fSpendable));
+        entry.push_back(Pair("solvable", out.fSolvable));
         results.push_back(entry);
-        vOutputsSaved.pop_back();
+        break;
     }
     return results;
 }
