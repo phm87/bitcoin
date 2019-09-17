@@ -839,13 +839,13 @@ UniValue cleanwallettransactions(const UniValue& params, bool fHelpt)
     {
         // get all locked utxos to relock them later.
         std::vector<COutPoint> vLockedUTXO;
-        pwallet->ListLockedCoins(vLockedUTXO);
+        pwalletMain->ListLockedCoins(vLockedUTXO);
         // unlock all coins so that the following call containes all utxos.
-        pwallet->UnlockAllCoins();
+        pwalletMain->UnlockAllCoins();
         // listunspent call... this gets us all the txids that are unspent, we search this list for the oldest tx,
         std::vector<COutput> vecOutputs;
-        assert(pwallet != NULL);
-        pwallet->AvailableCoins(vecOutputs, false, NULL, true);
+        assert(pwalletMain != NULL);
+        pwalletMain->AvailableCoins(vecOutputs, false, NULL, true);
         int32_t oldestTxDepth = 0;
         for (const COutput& out : vecOutputs) {
           if ( out.nDepth > oldestTxDepth )
@@ -854,7 +854,7 @@ UniValue cleanwallettransactions(const UniValue& params, bool fHelpt)
         oldestTxDepth = oldestTxDepth + 1; // add extra block just for safety.
         // lock all the previouly locked coins.
         for (const COutPoint& outpt : vLockedUTXO) {
-            pwallet->LockCoin(outpt);
+            pwalletMain->LockCoin(outpt);
         }
 
         // then add all txs in the wallet before this block to the list to remove.
@@ -869,12 +869,12 @@ UniValue cleanwallettransactions(const UniValue& params, bool fHelpt)
     // erase txs
     for (uint256& hash : TxToRemove)
     {
-        pwallet->EraseFromWallet(hash);
+        pwalletMain->EraseFromWallet(hash);
         LogPrintf("Erased %s from wallet.\n",hash.ToString().c_str());
     }
 
     // build return JSON for stats.
-    int remaining = pwallet->mapWallet.size();
+    int remaining = pwalletMain->mapWallet.size();
     ret.push_back(Pair("total_transactons", (int)txs));
     ret.push_back(Pair("remaining_transactons", (int)remaining));
     ret.push_back(Pair("removed_transactions", (int)(txs-remaining)));
@@ -2444,13 +2444,13 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelpt)
 //    ObserveSafeMode();
 
     if (!params[0].isNull()) {
-        RPCTypeCheckArgument(request.params[0], UniValue::VNUM);
+        RPCTypeCheckArgument(params[0], UniValue::VNUM);
         nMinDepth = params[0].get_int();
     }
 
     if (!params[1].isNull()) {
-        RPCTypeCheckArgument(request.params[1], UniValue::VNUM);
-        nMaxDepth = request.params[1].get_int();
+        RPCTypeCheckArgument(params[1], UniValue::VNUM);
+        nMaxDepth = params[1].get_int();
     }
 
     std::set<CTxDestination> destinations;
