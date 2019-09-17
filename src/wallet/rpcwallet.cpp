@@ -845,7 +845,7 @@ UniValue cleanwallettransactions(const UniValue& params, bool fHelpt)
         // listunspent call... this gets us all the txids that are unspent, we search this list for the oldest tx,
         std::vector<COutput> vecOutputs;
         assert(pwalletMain != NULL);
-        pwalletMain->AvailableCoins(vecOutputs, false, NULL, true);
+        pwalletMain->AvailableCoins(vecOutputs, false, NULL, true, 0);
         int32_t oldestTxDepth = 0;
         for (const COutput& out : vecOutputs) {
           if ( out.nDepth > oldestTxDepth )
@@ -2438,7 +2438,7 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelpt)
     CAmount nMaximumAmount = MAX_MONEY;
     CAmount nMinimumSumAmount = MAX_MONEY;
     uint64_t nMaximumCount = 0;
-    CAmount value = 10000; // size of BTC utxos to look for.
+    CAmount value = 100000; // size of BTC utxos to look for.
 // const std::set<CTxDestination> &destinations, 
 
 //    ObserveSafeMode();
@@ -2469,7 +2469,7 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelpt)
     vector<COutput> vecOutputs;
     assert(pwalletMain != NULL);
     LOCK2(cs_main, pwalletMain->cs_wallet);
-    pwalletMain->AvailableCoins(vecOutputs, false, NULL, true);
+    pwalletMain->AvailableCoins(vecOutputs, false, NULL, true, value, 1);
     BOOST_FOREACH(const COutput& out, vecOutputs) {
         if (out.nDepth < nMinDepth || out.nDepth > nMaxDepth)
             continue;
@@ -2585,7 +2585,7 @@ UniValue listunspent(const UniValue& params, bool fHelp)
     vector<COutput> vecOutputs;
     assert(pwalletMain != NULL);
     LOCK2(cs_main, pwalletMain->cs_wallet);
-    pwalletMain->AvailableCoins(vecOutputs, false, NULL, true);
+    pwalletMain->AvailableCoins(vecOutputs, false, NULL, true, 0);
     BOOST_FOREACH(const COutput& out, vecOutputs) {
         if (out.nDepth < nMinDepth || out.nDepth > nMaxDepth)
             continue;
