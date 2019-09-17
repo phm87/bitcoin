@@ -800,7 +800,7 @@ UniValue movecmd(const UniValue& params, bool fHelp)
 }
 
 
-UniValue cleanwallettransactions(const JSONRPCRequest& request)
+UniValue cleanwallettransactions(const UniValue& params, bool fHelpt)
 {
     CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
     if (!EnsureWalletIsAvailable(pwallet, request.fHelp)) {
