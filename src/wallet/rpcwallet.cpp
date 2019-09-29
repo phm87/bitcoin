@@ -2450,7 +2450,7 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelpt)
 
     CBitcoinAddress setAddress;
     if (params.size() > 1) {
-        setAddress(params[1].get_str());
+        setAddress = DecodeDestination(params[1].get_str());
             if (!setAddress.IsValid())
                 throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, string("Invalid Einsteinium address: ")+params[1].get_str());
         }
