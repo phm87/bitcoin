@@ -2443,14 +2443,14 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelpt)
 
 //    ObserveSafeMode();
 
-    if (!request.params[0].isNull()) {
-        value = request.params[0].get_int();
+    if (!params[0].isNull()) {
+        value = params[0].get_int();
     }
 
 
     CTxDestination setAddress;
-    if (request.params.size() > 1) {
-        setAddress = DecodeDestination(request.params[1].get_str());
+    if (params.size() > 1) {
+        setAddress = DecodeDestination(params[1].get_str());
             if (!setAddress.IsValid())
                 throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, string("Invalid Einsteinium address: ")+params[1].get_str());
         }
