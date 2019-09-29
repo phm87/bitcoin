@@ -2448,9 +2448,9 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelpt)
     }
 
 
-    CBitcoinAddress setAddress;
+    CTxDestination setAddress;
     if (params.size() > 1) {
-        CBitcoinAddress setAddress(params[1].get_str());
+        CTxDestination setAddress(params[1].get_str());
 //        setAddress = DecodeDestination(params[1].get_str());
             if (!setAddress.IsValid())
                 throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, string("Invalid Einsteinium address: ")+params[1].get_str());
@@ -2465,7 +2465,7 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelpt)
         if (out.nDepth < nMinDepth || out.nDepth > nMaxDepth)
             continue;
 
-        CBitcoinAddress address;
+        CTxDestination address;
         const CScript& scriptPubKey = out.tx->vout[out.i].scriptPubKey;
         bool fValidAddress = ExtractDestination(scriptPubKey, address);
 
