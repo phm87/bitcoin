@@ -2444,26 +2444,16 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelpt)
 //    ObserveSafeMode();
 
     if (!params[0].isNull()) {
-        nMinDepth = params[0].get_int();
+        value = params[0].get_int();
     }
 
-    if (!params[1].isNull()) {
-        nMaxDepth = params[1].get_int();
-    }
 
-    set<CBitcoinAddress> setAddress;
-    if (params.size() > 2) {
-        UniValue inputs = params[2].get_array();
-        for (unsigned int idx = 0; idx < inputs.size(); idx++) {
-            const UniValue& input = inputs[idx];
-            CBitcoinAddress address(input.get_str());
-            if (!address.IsValid())
-                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, string("Invalid Einsteinium address: ")+input.get_str());
-            if (setAddress.count(address))
-                throw JSONRPCError(RPC_INVALID_PARAMETER, string("Invalid parameter, duplicated address: ")+input.get_str());
-           setAddress.insert(address);
+    CBitcoinAddress setAddress;
+    if (params.size() > 1) {
+        setAddress(params[1].get_str());
+            if (!setAddress.IsValid())
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, string("Invalid Einsteinium address: ")+params[1].get_str());
         }
-    }
 
     UniValue results(UniValue::VARR);
     vector<COutput> vecOutputs;
@@ -2478,7 +2468,7 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelpt)
         const CScript& scriptPubKey = out.tx->vout[out.i].scriptPubKey;
         bool fValidAddress = ExtractDestination(scriptPubKey, address);
 
-        if (setAddress.size() && (!fValidAddress || !setAddress.count(address)))
+        if (!fValidAddress || setAddress != address)
             continue;
 
         UniValue entry(UniValue::VOBJ);
