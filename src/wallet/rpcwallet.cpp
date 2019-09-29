@@ -2465,7 +2465,7 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelpt)
         if (out.nDepth < nMinDepth || out.nDepth > nMaxDepth)
             continue;
 
-        CTxDestination address;
+        CBitcoinAddress address;
         const CScript& scriptPubKey = out.tx->vout[out.i].scriptPubKey;
         bool fValidAddress = ExtractDestination(scriptPubKey, address);
 
