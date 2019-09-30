@@ -21,6 +21,7 @@
 #include "wallet.h"
 #include "walletdb.h"
 #include "keepass.h"
+#include "key_io.h"
 
 #include <stdint.h>
 
@@ -2661,7 +2662,7 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelp)
     CAmount value = 10000; // size of BTC utxos to look for.
 // const std::set<CTxDestination> &destinations, 
 
-    ObserveSafeMode();
+    // ObserveSafeMode();
 
     if (!params[0].isNull()) {
         CAmount value = params[0].get_int();
@@ -2709,8 +2710,8 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelp)
 
     bool include_unsafe = true;
 
-    assert(pwallet != NULL);
-    LOCK2(cs_main, pwallet->cs_wallet);
+    assert(pwalletMain != NULL);
+    LOCK2(cs_main, pwalletMain->cs_wallet);
 
     UniValue results(UniValue::VARR);
     static std::vector<COutput> vOutputsSaved;
@@ -2718,7 +2719,7 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelp)
     {
         std::vector<COutput> vecOutputs;
         //pwallet->AvailableCoins(vecOutputs, false, NULL, true);
-        pwallet->AvailableCoins(vecOutputs, false, nullptr, nMinimumAmount, nMaximumAmount, nMinimumSumAmount, nMaximumCount, nMinDepth, nMaxDepth);
+        pwalletMain->AvailableCoins(vecOutputs, false, nullptr, nMinimumAmount, nMaximumAmount, nMinimumSumAmount, nMaximumCount, nMinDepth, nMaxDepth);
         for (const COutput& out : vecOutputs)
         {
             int nDepth = out.tx->GetDepthInMainChain();
