@@ -870,12 +870,10 @@ UniValue getbalance(const UniValue& params, bool fHelp)
     return ValueFromAmount(nBalance);
 }
 
-UniValue cleanwallettransactions(const JSONRPCRequest& request)
+UniValue cleanwallettransactions(const UniValue& params, bool fHelp)
 {
-    CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
-    if (!EnsureWalletIsAvailable(pwallet, request.fHelp)) {
+    if (!EnsureWalletIsAvailable(fHelp))
         return NullUniValue;
-    }
     return NullUniValue;
 /*
     if (request.fHelp)
