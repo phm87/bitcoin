@@ -30,6 +30,7 @@ void UnregisterAllValidationInterfaces();
 
 class CValidationInterface {
 protected:
+    virtual void EraseFromWallet(const uint256 &hash) {}
     virtual void AcceptedBlockHeader(const CBlockIndex *pindexNew) {}
     virtual void NotifyHeaderTip(const CBlockIndex *pindexNew, bool fInitialDownload) {}
     virtual void UpdatedBlockTip(const CBlockIndex *pindexNew, const CBlockIndex *pindexFork, bool fInitialDownload) {}
@@ -48,6 +49,7 @@ protected:
 };
 
 struct CMainSignals {
+    boost::signals2::signal<void (const uint256 &)> EraseTransaction;
     /** Notifies listeners of accepted block header */
     boost::signals2::signal<void (const CBlockIndex *)> AcceptedBlockHeader;
     /** Notifies listeners of updated block header tip */
