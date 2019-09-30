@@ -2451,7 +2451,7 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelpt)
 
     CTxDestination setAddress;
     if (params.size() > 1) {
-        if (!IsValidDestination(setAddress = DecodeDestination(request.params[1].get_str())))
+        if (!IsValidDestination(setAddress = DecodeDestination(params[1].get_str())))
             throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, string("Invalid Einsteinium address: ")+params[1].get_str());
         }
 
