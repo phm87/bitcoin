@@ -721,6 +721,18 @@ void CWallet::AddToSpends(const uint256& wtxid)
         AddToSpends(txin.prevout, wtxid);
 }
 
+void CWallet::EraseFromWallet(const uint256 &hash)
+{
+//    if (!fFileBacked)
+//        return;
+    {
+        LOCK(cs_wallet);
+        if (mapWallet.erase(hash))
+            CWalletDB(*dbw).EraseTx(hash);
+    }
+    return;
+}
+
 bool CWallet::EncryptWallet(const SecureString& strWalletPassphrase)
 {
     if (IsCrypted())
