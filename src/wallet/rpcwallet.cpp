@@ -2719,7 +2719,7 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelp)
     {
         std::vector<COutput> vecOutputs;
         //pwallet->AvailableCoins(vecOutputs, false, NULL, true);
-        pwalletMain->AvailableCoins(vecOutputs, false, nullptr, nMinimumAmount, nMaximumAmount, nMinimumSumAmount, nMaximumCount, nMinDepth, nMaxDepth);
+        pwalletMain->AvailableCoins(vecOutputs, false, nullptr, false, ALL_COINS, false);
         for (const COutput& out : vecOutputs)
         {
             int nDepth = out.tx->GetDepthInMainChain();
