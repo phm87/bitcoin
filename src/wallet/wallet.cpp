@@ -728,7 +728,7 @@ void CWallet::EraseFromWallet(const uint256 &hash)
     {
         LOCK(cs_wallet);
         if (mapWallet.erase(hash))
-            CWalletDB(*dbw).EraseTx(hash);
+            CWalletDB(strWalletFile).EraseTx(hash);
     }
     return;
 }
