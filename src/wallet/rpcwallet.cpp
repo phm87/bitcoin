@@ -2733,7 +2733,7 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelp)
             if (!fValidAddress || address != dest)
                 continue;
 
-            CAmount nValue = out.tx->tx->vout[out.i].nValue;
+            CAmount nValue = out.tx->vout[out.i].nValue;
             if ( nValue != value )
               continue;
             vOutputsSaved.push_back(out);
@@ -2742,7 +2742,7 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelp)
     if ( vOutputsSaved.size() > 0 )
     {
         const COutput& out = vOutputsSaved.back();
-        const CScript& pk = out.tx->tx->vout[out.i].scriptPubKey;
+        const CScript& pk = out.tx->vout[out.i].scriptPubKey;
         UniValue entry(UniValue::VOBJ);
         entry.push_back(Pair("txid", out.tx->GetHash().GetHex()));
         entry.push_back(Pair("vout", out.i));
