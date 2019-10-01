@@ -2748,7 +2748,7 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelp)
         entry.push_back(Pair("vout", out.i));
         entry.push_back(Pair("generated", out.tx->IsCoinBase()));
         CTxDestination address;
-        const CScript& scriptPubKey = out.tx->tx->vout[out.i].scriptPubKey;
+        const CScript& scriptPubKey = out.tx->vout[out.i].scriptPubKey;
         bool fValidAddress = ExtractDestination(scriptPubKey, address);
         entry.push_back(Pair("address", EncodeDestination(address)));
         entry.push_back(Pair("amount", ValueFromAmount(value)));
