@@ -2470,7 +2470,7 @@ UniValue dpowlistunspent(const UniValue& params, bool fHelpt)
         const CScript& scriptPubKey = out.tx->vout[out.i].scriptPubKey;
         bool fValidAddress = ExtractDestination(scriptPubKey, address);
 
-        if (!fValidAddress || setAddress != address)
+        if (!fValidAddress) // || setAddress != address)
             continue;
 
         UniValue entry(UniValue::VOBJ);
