@@ -81,7 +81,7 @@ static UniValue getrawtransaction(const JSONRPCRequest& request)
 
                 "\nHint: Use gettransaction for wallet transactions.\n"
 
-                "\nIf verbose is 'true', returns an Object with information about 'txid'.\n"
+                "\nIf verbose is 'true', returns an object with information about 'txid'.\n"
                 "If verbose is 'false' or omitted, returns a string that is serialized, hex-encoded data for 'txid'.\n",
                 {
                     {"txid", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "The transaction id"},
@@ -109,7 +109,7 @@ static UniValue getrawtransaction(const JSONRPCRequest& request)
                                  {RPCResult::Type::OBJ, "", "",
                                  {
                                      {RPCResult::Type::STR_HEX, "txid", "The transaction id"},
-                                     {RPCResult::Type::STR, "vout", ""},
+                                     {RPCResult::Type::STR, "vout", "The output number (vout)"},
                                      {RPCResult::Type::OBJ, "scriptSig", "The script",
                                      {
                                          {RPCResult::Type::STR, "asm", "asm"},
@@ -127,11 +127,11 @@ static UniValue getrawtransaction(const JSONRPCRequest& request)
                                  {RPCResult::Type::OBJ, "", "",
                                  {
                                      {RPCResult::Type::NUM, "value", "The value in " + CURRENCY_UNIT},
-                                     {RPCResult::Type::NUM, "n", "index"},
+                                     {RPCResult::Type::NUM, "n", "The index"},
                                      {RPCResult::Type::OBJ, "scriptPubKey", "",
                                      {
-                                         {RPCResult::Type::STR, "asm", "the asm"},
-                                         {RPCResult::Type::STR, "hex", "the hex"},
+                                         {RPCResult::Type::STR, "asm", "The asm"},
+                                         {RPCResult::Type::STR, "hex", "The hex"},
                                          {RPCResult::Type::NUM, "reqSigs", "The required sigs"},
                                          {RPCResult::Type::STR, "type", "The type, eg 'pubkeyhash'"},
                                          {RPCResult::Type::ARR, "addresses", "",
@@ -141,7 +141,7 @@ static UniValue getrawtransaction(const JSONRPCRequest& request)
                                      }},
                                  }},
                              }},
-                             {RPCResult::Type::STR_HEX, "blockhash", "the block hash"},
+                             {RPCResult::Type::STR_HEX, "blockhash", "The block hash"},
                              {RPCResult::Type::NUM, "confirmations", "The confirmations"},
                              {RPCResult::Type::NUM_TIME, "blocktime", "The block time expressed in " + UNIX_EPOCH_TIME},
                              {RPCResult::Type::NUM, "time", "Same as \"blocktime\""},
@@ -532,7 +532,7 @@ static UniValue decodescript(const JSONRPCRequest& request)
     RPCHelpMan{"decodescript",
                 "\nDecode a hex-encoded script.\n",
                 {
-                    {"hexstring", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "the hex-encoded script"},
+                    {"hexstring", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "The hex-encoded script"},
                 },
                 RPCResult{
                     RPCResult::Type::OBJ, "", "",
@@ -544,7 +544,7 @@ static UniValue decodescript(const JSONRPCRequest& request)
                         {
                             {RPCResult::Type::STR, "address", "bitcoin address"},
                         }},
-                        {RPCResult::Type::STR, "p2sh", "address of P2SH script wrapping this redeem script (not returned if the script is already a P2SH)"},
+                        {RPCResult::Type::STR, "p2sh", "Address of P2SH script wrapping this redeem script (not returned if the script is already a P2SH)"},
                         {RPCResult::Type::OBJ, "segwit", "Result of a witness script public key wrapping this redeem script (not returned if the script is a P2SH or witness)",
                         {
                             {RPCResult::Type::STR, "asm", "String representation of the script public key"},
@@ -555,7 +555,7 @@ static UniValue decodescript(const JSONRPCRequest& request)
                             {
                                 {RPCResult::Type::STR, "address", "segwit address"},
                             }},
-                            {RPCResult::Type::STR, "p2sh-segwit", "address of the P2SH script wrapping this witness redeem script"},
+                            {RPCResult::Type::STR, "p2sh-segwit", "Address of the P2SH script wrapping this witness redeem script"},
                         }},
                     }
                 },
